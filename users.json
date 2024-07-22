@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "ozcan",
+    "email": "ozcan@example.com",
+    "role": "Admin",
+    "password": "1234"
+  },
+  {
+    "name": "emre",
+    "email": "hasan@hotmail.com",
+    "role": "Kullanıcı",
+    "password": "1234",
+    "id": 2
+  },
+  {
+    "name": "anıl",
+    "email": "anıl@hotmail.com",
+    "role": "Moderatör",
+    "password": "1234",
+    "id": 3
+  },
+  {
+    "name": "erkan",
+    "email": "erkan@hotmail.com",
+    "role": "Admin",
+    "password": "1234",
+    "id": 4
+  },
+  {
+    "name": "Erkan",
+    "email": "kadsaksd@hotmail.com",
+    "role": "Admin",
+    "password": "12334",
+    "id": 5
+  }
+]

@@ -1,0 +1,65 @@
+// src/Login.js
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './styles/Login.css';
+import { UserContext } from './AdminPanel/context/UserContext';
+import kudiImage from './img/kudi.png';
+
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const { users, currentUser, setCurrentUser } = useContext(UserContext);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const user = users.find(u => u.name === username && u.password === password);
+    if (user) {
+      if (user.role === 'Admin' || !currentUser) {
+        setCurrentUser(user);
+        navigate('/admin');
+      } else {
+        setError('Kullanıcı zaten başka bir oturumda açık.');
+      }
+    } else {
+      setError('Geçersiz kullanıcı adı veya şifre');
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <div className="login-background">
+        <div className="login-box">
+          <img src={kudiImage} alt="Kudi Logo" className="login-logo" />
+          <h2>Giriş</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <label>Kullanıcı Adı</label>
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <label>Şifre</label>
+            </div>
+            {error && <div className="error-message">{error}</div>}
+            <button type="submit" className="login-button">Giriş Yap</button>
+            <button type="button" className="signup-button" onClick={() => navigate('/signup')}>Üyelik İste</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

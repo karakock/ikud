@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exchange Data Server WS Test Portalı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #ws-form {
+            margin-top: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 60%; /* Daha dar bir tablo */
+            margin-top: 20px;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            text-align: right; /* Rakamların sağa hizalanması */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .price-up {
+            background-color: #90EE90; /* Yeşil arkaplan */
+        }
+
+        .price-down {
+            background-color: #FFB6C1; /* Kırmızı arkaplan */
+        }
+    </style>
+</head>
+<body>
+    <h2>Exchange Data Server WS Test Portalı</h2>
+    <form id="ws-form">
+        <label for="ws-address">WebSocket Address:</label>
+        <input type="text" id="ws-address" placeholder="ws://host:port" required>
+        <button type="submit">Connect</button>
+    </form>
+    <table id="dataTable">
+        <tr>
+            <th>Code</th>
+            <th>Category</th>
+            <th>Bid</th>
+            <th>Ask</th>
+            <th>Time</th>
+        </tr>
+    </table>
+
+    <script>
+        let previousData = {};
+
+        document.getElementById('ws-form').onsubmit = function(event) {
+            event.preventDefault();
+            const address = document.getElementById('ws-address').value;
+            connectWebSocket(address);
+        };
+
+        function connectWebSocket(address) {
+            const ws = new WebSocket(address);
+
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                updateTable(data);
+                previousData = data.reduce((acc, item) => ({...acc, [item.Code]: item}), {});
+            };
+        }
+
+        function updateTable(data) {
+            const table = document.getElementById('dataTable');
+            
+            // Clear existing rows except the header
+            for(let i = table.rows.length - 1; i > 0; i--) {
+                table.deleteRow(i);
+            }
+
+            // Add new data to the table
+            data.forEach(item => {
+                const row = table.insertRow();
+                const priceClass = getPriceChangeClass(item);
+                row.className = priceClass;
+                row.insertCell(0).innerHTML = item.Code;
+                row.insertCell(1).innerHTML = item.Category;
+                row.insertCell(2).innerHTML = formatNumber(item.Bid);
+                row.insertCell(3).innerHTML = formatNumber(item.Ask);
+                row.insertCell(4).innerHTML = formatTime(item.Time);
+            });
+        }
+
+        function getPriceChangeClass(item) {
+            const previousItem = previousData[item.Code];
+            if (!previousItem) return '';
+
+            if (item.Bid > previousItem.Bid || item.Ask > previousItem.Ask) {
+                return 'price-up';
+            } else if (item.Bid < previousItem.Bid || item.Ask < previousItem.Ask) {
+                return 'price-down';
+            }
+            return '';
+        }
+
+        function formatNumber(number) {
+            return new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            }).format(number);
+        }
+
+        function formatTime(dateTimeStr) {
+            const date = new Date(dateTimeStr);
+            return date.getHours().toString().padStart(2, '0') + ':' + 
+                   date.getMinutes().toString().padStart(2, '0');
+        }
+    </script>
+</body>
+</html>

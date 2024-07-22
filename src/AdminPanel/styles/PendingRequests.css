@@ -1,0 +1,38 @@
+.pending-requests-container {
+    font-family: 'Playfair Display', serif;
+    padding: 2rem;
+    background: #f4f4f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pending-requests-container h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .pending-requests-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .pending-requests-container th,
+  .pending-requests-container td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .pending-requests-container th {
+    background: #ffd700;
+    color: #333;
+  }
+  
+  .pending-requests-container td {
+    background: #fff;
+  }
+  
+  .pending-requests-container tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+  

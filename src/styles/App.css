@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  margin-top: 4rem; /* AdminHeader yüksekliği için boşluk bırak */
+}
+
+.admin-panel-content {
+  padding: 2rem;
+  margin-bottom: 4rem; /* AdminFooter yüksekliği için boşluk bırak */
+}

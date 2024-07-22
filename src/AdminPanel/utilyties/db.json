@@ -1,0 +1,9 @@
+{
+    "users": [
+      { "id": 1, "name": "User One", "email": "userone@example.com", "role": "Kullanıcı", "password": "password1" },
+      { "id": 2, "name": "User Two", "email": "usertwo@example.com", "role": "Kullanıcı", "password": "password2" },
+      { "id": 3, "name": "User Three", "email": "userthree@example.com", "role": "Kullanıcı", "password": "password3" },
+      { "id": 4, "name": "ozcan", "email": "userthree@example.com", "role": "Admin", "password": "1234" }
+    ]
+  }
+  

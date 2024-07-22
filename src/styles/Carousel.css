@@ -1,0 +1,16 @@
+/* src/styles/Carousel.css */
+.carousel-container {
+    width: 940px;
+    height: 360px;
+    margin: auto;
+    border: 3px solid #978f8f; /* Çerçeve ekleme */
+    border-radius: 8px; /* Köşeleri yuvarlama */
+    overflow: hidden; /* Taşan içeriği gizleme */
+  }
+  
+  .carousel-image {
+    width: 200px;
+    height: 360px;
+    object-fit: cover;
+  }
+  

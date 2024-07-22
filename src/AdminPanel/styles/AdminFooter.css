@@ -1,0 +1,24 @@
+.admin-footer-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #1c8eff; /* Daha koyu bir ton */
+  color: #fff;
+  text-align: center;
+  padding: 0.1rem 0; /* Daha az iç boşluk */
+  border-top: 1px solid #444; /* Daha koyu bir sınır rengi */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15); /* Üstte hafif bir gölge */
+  z-index: 1000;
+  font-size: 0.875rem; /* Yazı boyutunu biraz küçülttük */
+}
+
+.admin-footer-container a {
+  color: #1abc9c; /* Daha dikkat çekici bir link rengi */
+  text-decoration: none;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease; /* Geçiş efekti ekledik */
+}
+
+.admin-footer-container a:hover {
+  color: #16a085; /* Hover durumunda daha koyu bir ton */
+}
