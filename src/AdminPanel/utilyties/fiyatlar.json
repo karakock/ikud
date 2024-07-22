@@ -1,0 +1,22 @@
+{
+    "marqueeText": "Latest Prices and Updates",
+    "scrollAmount": 5,
+    "symbols": ["UHAS", "22AYAR", "18AYAR", "14AYAR", "YCEYREK", "YYARIM", "YZIYNET", "YATA", "USDTRY", "ECEYREK", "EYARIM", "EZIYNET", "EATA", "EURTRY"],
+    "operations": {
+      "UHAS": "+1.5",
+      "22AYAR": "-0.5",
+      "18AYAR": "*1.1",
+      "14AYAR": "/1.05",
+      "YCEYREK": "+0.8",
+      "YYARIM": "-0.3",
+      "YZIYNET": "*1.2",
+      "YATA": "/1.02",
+      "USDTRY": "+0.1",
+      "ECEYREK": "-0.4",
+      "EYARIM": "*1.15",
+      "EZIYNET": "/1.03",
+      "EATA": "+0.6",
+      "EURTRY": "-0.2"
+    }
+  }
+  

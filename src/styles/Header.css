@@ -1,0 +1,19 @@
+/* src/styles/Header.css */
+.header-container {
+    background-color: #001a5e;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .header-logo {
+    width: 100px;
+    height: auto;
+  }
+  
+  .header-title {
+    font-size: 50px;
+  }
+  

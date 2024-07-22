@@ -1,0 +1,68 @@
+.table-container {
+  background-color: #001F5B;
+  color: #FFFFFF;
+}
+
+.header2 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.r {
+  color: red;
+}
+
+.header3 {
+  background-color: #123456;
+  color: #FFFFFF;
+  font-size: 1.5em;
+  padding: 20px;
+}
+
+.header4 {
+  background-color: #345678;
+  color: #FFFFFF;
+  font-size: 1.2em;
+ 
+}
+
+.p3 {
+  padding: 12px;
+}
+
+.bg-light {
+  background-color: #b3b5b8 !important;
+}
+
+.text-dark {
+  color: #343a40 !important;
+}
+
+.h {
+  text-align: left;
+}
+
+.d {
+  text-align: center;
+  color: yellow;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.container-fluid {
+  padding: 20px;
+}
+
+.image {
+  max-width: 50%;
+  height: auto;
+}

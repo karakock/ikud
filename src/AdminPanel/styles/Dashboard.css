@@ -1,0 +1,16 @@
+.dashboard-container {
+    margin: 2rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .dashboard-container h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .dashboard-container p {
+    margin: 0;
+  }
+  
