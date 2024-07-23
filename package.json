@@ -23,7 +23,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+<<<<<<< HEAD
     "build": "react-scripts build",
+=======
+    "build": "http://www.ikud.fiyat.org.tr",
+>>>>>>> 25ae0346fbcd296dbef65844704a0311c31e1aab
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
