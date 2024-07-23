@@ -1,5 +1,6 @@
 {
   "name": "my-react-app",
+  "homepage": "https://ikudfiyat.org.tr/",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
@@ -23,11 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-
     "build": "react-scripts build",
-
-    "build": "http://www.ikud.fiyat.org.tr",
-
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -51,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.8",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-react": "^7.24.7",
     "source-map-loader": "^5.0.0"
   }
