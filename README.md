@@ -46,7 +46,7 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ### Code Splitting
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3f47e695-e4a5-42f1-ab59-a16b674ba407/deploy-status)](https://app.netlify.com/sites/ikud/deploys)
 This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
 ### Analyzing the Bundle Size
