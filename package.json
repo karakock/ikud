@@ -8,6 +8,7 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "cors": "^2.8.5",
+    "express": "^4.19.2",
     "formik": "^2.4.6",
     "https": "^1.0.0",
     "jquery": "^3.7.1",
