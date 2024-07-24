@@ -1,15 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
-const https = require('https');
 const app = express();
 const PORT = 5000;
-
-// SSL/TLS sertifikalarını ekleyin
-const server = https.createServer({
-  cert: fs.readFileSync('ssl/cert.pem'),
-  key: fs.readFileSync('ssl/key.pem')
-}, app);
 
 app.use(cors());
 app.use(express.json());
@@ -43,6 +36,6 @@ app.delete('/users/:id', (req, res) => {
   res.json({ message: 'User deleted' });
 });
 
-server.listen(PORT, () => {
-  console.log(`Server running on https://localhost:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
