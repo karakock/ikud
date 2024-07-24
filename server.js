@@ -2,34 +2,14 @@ const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
 const https = require('https');
-const WebSocket = require('ws');
 const app = express();
 const PORT = 5000;
 
 // SSL/TLS sertifikalarını ekleyin
 const server = https.createServer({
-  cert: fs.readFileSync('/path/to/cert.pem'),
-  key: fs.readFileSync('/path/to/key.pem')
+  cert: fs.readFileSync('ssl/cert.pem'),
+  key: fs.readFileSync('ssl/key.pem')
 }, app);
-
-// WebSocket sunucusunu oluşturun
-const wss = new WebSocket.Server({ server });
-
-// WebSocket bağlantılarını yönetin
-wss.on('connection', ws => {
-  console.log('WebSocket bağlantısı kuruldu');
-
-  ws.on('message', message => {
-    console.log('Gelen mesaj: %s', message);
-    // Burada mesajları işleyebilirsiniz
-  });
-
-  ws.on('close', () => {
-    console.log('WebSocket bağlantısı kapandı');
-  });
-
-  ws.send('Hoşgeldiniz!');
-});
 
 app.use(cors());
 app.use(express.json());
