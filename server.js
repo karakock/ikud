@@ -9,8 +9,8 @@ const WS_PORT = 443;
 
 // SSL sertifika dosyalarının yolları
 const serverOptions = {
-  cert: fs.readFileSync('C:\\ProgramData\\win-acme\\acme-v02.api.letsencrypt.org\\<cert-path>\\cert.pem'),
-  key: fs.readFileSync('C:\\ProgramData\\win-acme\\acme-v02.api.letsencrypt.org\\<cert-path>\\key.pem')
+  cert: fs.readFileSync('C:\\ProgramData\\win-acme\\acme-v02.api.letsencrypt.org\\your-domain-folder\\cert.pem'),
+  key: fs.readFileSync('C:\\ProgramData\\win-acme\\acme-v02.api.letsencrypt.org\\your-domain-folder\\key.pem')
 };
 
 // HTTPS sunucusu oluşturma
