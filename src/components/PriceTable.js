@@ -12,7 +12,7 @@ const PriceTable = ({ marqueeText, scrollAmount, symbols, show18Ayar, show14Ayar
     let ws;
 
     const connectWebSocket = () => {
-      ws = new WebSocket('wss://<your-domain-or-ip>');
+      ws = new WebSocket('ws://152.89.36.148:24876');
 
       ws.onopen = () => {
         console.log('WebSocket connection opened');
