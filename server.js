@@ -1,8 +1,43 @@
 const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
+const https = require('https');
+const WebSocket = require('ws');
 const app = express();
 const PORT = 5000;
+const WS_PORT = 443;
+
+// SSL sertifika dosyalarının yolları
+const serverOptions = {
+  cert: fs.readFileSync('C:\\ProgramData\\win-acme\\acme-v02.api.letsencrypt.org\\<cert-path>\\cert.pem'),
+  key: fs.readFileSync('C:\\ProgramData\\win-acme\\acme-v02.api.letsencrypt.org\\<cert-path>\\key.pem')
+};
+
+// HTTPS sunucusu oluşturma
+const server = https.createServer(serverOptions, app);
+
+// WebSocket sunucusu oluşturma ve proxy olarak yapılandırma
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws, req) => {
+  const targetWs = new WebSocket('ws://152.89.36.148:24876');
+
+  ws.on('message', (message) => {
+    targetWs.send(message);
+  });
+
+  targetWs.on('message', (message) => {
+    ws.send(message);
+  });
+
+  ws.on('close', () => {
+    targetWs.close();
+  });
+
+  targetWs.on('close', () => {
+    ws.close();
+  });
+});
 
 app.use(cors());
 app.use(express.json());
@@ -37,5 +72,9 @@ app.delete('/users/:id', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`REST API server running on http://localhost:${PORT}`);
+});
+
+server.listen(WS_PORT, () => {
+  console.log(`WebSocket proxy server running on https://localhost:${WS_PORT}`);
 });
