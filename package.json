@@ -52,5 +52,9 @@
     "@babel/eslint-parser": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
     "source-map-loader": "^5.0.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8",
+    "utf-8-validate": "^5.0.10"
   }
 }
