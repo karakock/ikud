@@ -1,8 +1,20 @@
 const express = require('express');
 const fs = require('fs');
+const https = require('https');
 const cors = require('cors');
 const app = express();
 const PORT = 5000;
+
+// Sertifika dosyalarını yükleyin
+const privateKey = fs.readFileSync('C:/ProgramData/win-acme/acme-v02.api.letsencrypt.org/Certificates/privatekey.pem', 'utf8');
+const certificate = fs.readFileSync('C:/ProgramData/win-acme/acme-v02.api.letsencrypt.org/Certificates/certificate.pem', 'utf8');
+const ca = fs.readFileSync('C:/ProgramData/win-acme/acme-v02.api.letsencrypt.org/Certificates/chain.pem', 'utf8');
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+};
 
 app.use(cors());
 app.use(express.json());
@@ -36,6 +48,9 @@ app.delete('/users/:id', (req, res) => {
   res.json({ message: 'User deleted' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// HTTPS sunucusunu oluşturun
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(PORT, () => {
+  console.log(`Secure server running on https://localhost:${PORT}`);
 });
