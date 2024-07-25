@@ -88,7 +88,7 @@ const PriceTable = ({ marqueeText, scrollAmount, symbols, show18Ayar, show14Ayar
     };
   };
 
-  return
+  return (
     <div className="table-container container-fluid">
       <div className="row header2 text-center d-flex align-items-center justify-content-between">
         <div className="col-sm">
