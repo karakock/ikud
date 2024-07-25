@@ -14,7 +14,7 @@ const Footer = ({ symbols }) => {
     let ws;
 
     const connectWebSocket = () => {
-      ws = new WebSocket('ws://152.89.36.148');
+      ws = new WebSocket('wss://152.89.36.148');
 
       ws.onopen = () => {
         console.log('WebSocket connection opened');
