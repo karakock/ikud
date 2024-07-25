@@ -2,7 +2,6 @@ const express = require('express');
 const fs = require('fs');
 const https = require('https');
 const cors = require('cors');
-const { WebSocketServer } = require('ws');
 const app = express();
 const PORT = 5000;
 
@@ -52,19 +51,6 @@ app.delete('/users/:id', (req, res) => {
 // HTTPS sunucusunu oluşturun
 const httpsServer = https.createServer(credentials, app);
 
-// WebSocket sunucusunu oluşturun ve HTTPS sunucusuna bağlayın
-const wss = new WebSocketServer({ server: httpsServer });
-
-wss.on('connection', (ws) => {
-  ws.on('message', (message) => {
-    console.log('received: %s', message);
-    // Gelen mesajı işleyin ve gerekli yanıtları gönderin
-    ws.send('something');
-  });
-
-  ws.send('connected to secure WebSocket server');
-});
-
 httpsServer.listen(PORT, () => {
-  console.log(`Secure server running on https://localhost:${PORT}`);
+  console.log(`Secure server running on https://your_domain_or_ip:${PORT}`);
 });
