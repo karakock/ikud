@@ -12,7 +12,7 @@ const PriceTable = ({ marqueeText, scrollAmount, symbols, show18Ayar, show14Ayar
     let ws;
 
     const connectWebSocket = () => {
-      ws = new WebSocket('wss://152.89.36.148:24876');
+      ws = new WebSocket('wss://ikud-git-aslan-nefes45s-projects.vercel.app');
 
       ws.onopen = () => {
         console.log('WebSocket connection opened');
@@ -88,7 +88,7 @@ const PriceTable = ({ marqueeText, scrollAmount, symbols, show18Ayar, show14Ayar
     };
   };
 
-  return (
+  return
     <div className="table-container container-fluid">
       <div className="row header2 text-center d-flex align-items-center justify-content-between">
         <div className="col-sm">
