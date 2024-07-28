@@ -93,9 +93,9 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
         <div className="admin-panel-sidebar">
           <ul>
             <li><Link to="/admin"><i className="fas fa-tachometer-alt fa-icon"></i>YÖNETİM PANELİ</Link></li>
+            <li><Link to="/"><i className="fas fa-home fa-icon"></i>Ana Sayfa</Link></li>
             {currentUser.role === 'Admin' && (
               <>
-                <li><Link to="/"><i className="fas fa-home fa-icon"></i>Ana Sayfa</Link></li>
                 <li>
                   <button onClick={toggleSidebar}><i className="fas fa-dollar-sign fa-icon"></i>Fiyat Güncelleme</button>
                   <div className={`submenu ${sidebarOpen ? 'open' : ''}`}>
