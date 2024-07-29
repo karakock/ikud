@@ -1,9 +1,7 @@
-// src/components/Header.js
 import React from 'react';
 import '../styles/Header.css';
 import bayrakGif from '../img/bayrak.gif';
 import kudiImage from '../img/kudi.png';
-
 
 const Header = () => (
   <div className="header-container">
@@ -14,4 +12,3 @@ const Header = () => (
 );
 
 export default Header;
-

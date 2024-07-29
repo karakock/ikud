@@ -1,10 +1,11 @@
 .table-container {
   background-color: #001F5B;
   color: #FFFFFF;
+  font-size: 1.4em; /* Yazı boyutunu büyütme */
 }
 
 .header2 {
-  font-size: 1.2em;
+  font-size: 1.2em; /* Yazı boyutunu büyütme */
   font-weight: bold;
 }
 .r {
@@ -14,14 +15,14 @@
 .header3 {
   background-color: #123456;
   color: #FFFFFF;
-  font-size: 1.5em;
+  font-size: 2em; /* Yazı boyutunu büyütme */
   padding: 20px;
 }
 
 .header4 {
   background-color: #345678;
   color: #FFFFFF;
-  font-size: 1.2em;
+  font-size: 1.5em; /* Yazı boyutunu büyütme */
  
 }
 
@@ -47,7 +48,7 @@
 }
 
 .border-bottom {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 3px solid #ccc;
 }
 
 .text-center {
@@ -59,7 +60,7 @@
 }
 
 .container-fluid {
-  padding: 20px;
+  padding: 0px;
 }
 
 .image {

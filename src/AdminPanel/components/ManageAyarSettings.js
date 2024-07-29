@@ -30,7 +30,7 @@ const ManageAyarSettings = ({ show18Ayar, setShow18Ayar, show14Ayar, setShow14Ay
             checked={localShow18Ayar}
             onChange={(e) => setLocalShow18Ayar(e.target.checked)}
           />
-          18 Ayar Göster
+          18 Ayar Satış Fiyatını Göster
         </label>
       </div>
       <div className="settings-option">
@@ -40,7 +40,7 @@ const ManageAyarSettings = ({ show18Ayar, setShow18Ayar, show14Ayar, setShow14Ay
             checked={localShow14Ayar}
             onChange={(e) => setLocalShow14Ayar(e.target.checked)}
           />
-          14 Ayar Göster
+          14 Ayar Satış Fiyatını Göster
         </label>
       </div>
       <button className="save-button" onClick={handleSaveSettings}>Kaydet</button>

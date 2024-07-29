@@ -8,7 +8,7 @@ import Header from './components/Header';
 import AdminPanel from './AdminPanel/components/AdminPanel';
 import { UserProvider, UserContext } from './AdminPanel/context/UserContext';
 import { SlideProvider } from './AdminPanel/context/SlideContext';
-import { OperationsProvider } from './AdminPanel/context/OperationsContext';
+import { OperationsProvider } from './AdminPanel/context/OperationsContext'; // Burada değişiklik yapıldı
 
 const symbols = ['ONS', 'USDTRY', 'EURTRY', 'EURUSD', 'HAS', 'YCEYREK', 'YYARIM', 'YZIYNET', 'YATA', 'ECEYREK', 'EYARIM', 'EZIYNET', 'EATA', 'UHAS', '18AYAR', '22AYAR', '14AYAR'];
 
