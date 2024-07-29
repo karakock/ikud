@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 export const UserContext = createContext();
@@ -11,20 +11,29 @@ export const UserProvider = ({ children }) => {
     ? 'http://stildunyasi.site/users' 
     : 'http://localhost:5000/users';
 
+  const setActiveStatus = useCallback(async (userId, status) => {
+    try {
+      await axios.patch(`${apiUrl}/${userId}`, { isActive: status });
+      setUsers(users.map(user => user.id === userId ? { ...user, isActive: status } : user));
+    } catch (error) {
+      console.error('Aktif durum ayarlanırken hata:', error.message);
+    }
+  }, [apiUrl, users]);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(apiUrl);
         setUsers(response.data);
       } catch (error) {
-        console.error('Error fetching users:', error.message);
+        console.error('Kullanıcıları çekerken hata:', error.message);
         if (error.response) {
-          console.error('Server responded with a status:', error.response.status);
-          console.error('Response data:', error.response.data);
+          console.error('Sunucu durumu:', error.response.status);
+          console.error('Yanıt verisi:', error.response.data);
         } else if (error.request) {
-          console.error('No response received:', error.request);
+          console.error('Yanıt alınamadı:', error.request);
         } else {
-          console.error('Error setting up the request:', error.message);
+          console.error('İstek kurulurken hata:', error.message);
         }
       }
     };
@@ -35,30 +44,31 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      setActiveStatus(currentUser.id, true);
     } else {
       localStorage.removeItem('currentUser');
     }
-  }, [currentUser]);
+  }, [currentUser, setActiveStatus]);
 
   const addUser = async (newUser) => {
     try {
       const response = await axios.post(apiUrl, newUser);
       setUsers([...users, response.data]);
     } catch (error) {
-      console.error('Error adding user:', error.message);
+      console.error('Kullanıcı eklenirken hata:', error.message);
       if (error.response) {
-        console.error('Server responded with a status:', error.response.status);
-        console.error('Response data:', error.response.data);
+        console.error('Sunucu durumu:', error.response.status);
+        console.error('Yanıt verisi:', error.response.data);
       } else if (error.request) {
-        console.error('No response received:', error.request);
+        console.error('Yanıt alınamadı:', error.request);
       } else {
-        console.error('Error setting up the request:', error.message);
+        console.error('İstek kurulurken hata:', error.message);
       }
     }
   };
 
   return (
-    <UserContext.Provider value={{ users, setUsers, currentUser, setCurrentUser, addUser }}>
+    <UserContext.Provider value={{ users, setUsers, currentUser, setCurrentUser, addUser, setActiveStatus }}>
       {children}
     </UserContext.Provider>
   );

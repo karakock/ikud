@@ -19,7 +19,7 @@ import '../styles/AdminPanel.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount, onSaveMarqueeSettings, symbols, show18Ayar, setShow18Ayar, show14Ayar, setShow14Ayar }) => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser, setActiveStatus } = useContext(UserContext);
   const { operations } = useContext(OperationsContext);
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -45,7 +45,8 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
     return <Navigate to="/login" />;
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await setActiveStatus(currentUser.id, false);
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
     navigate('/login');
