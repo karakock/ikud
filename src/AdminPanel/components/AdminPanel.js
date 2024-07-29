@@ -1,4 +1,3 @@
-// src/AdminPanel.js
 import React, { useContext, useEffect, useState } from 'react';
 import { Route, Routes, Link, Navigate, useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
@@ -7,7 +6,6 @@ import PriceUpdateForm from './PriceUpdateForm';
 import UserManagement from './UserManagement';
 import PendingRequests from './PendingRequests';
 import PriceTable from '../../components/PriceTable';
-import Statistics from './Statistics';
 import UserProfile from './UserProfile';
 import MarqueeSettings from './MarqueeSettings';
 import SlideManagement from './SlideManagement';
@@ -21,12 +19,11 @@ import '../styles/AdminPanel.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount, onSaveMarqueeSettings, symbols, show18Ayar, setShow18Ayar, show14Ayar, setShow14Ayar }) => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser, setActiveStatus } = useContext(UserContext);
   const { operations } = useContext(OperationsContext);
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -48,7 +45,8 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
     return <Navigate to="/login" />;
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await setActiveStatus(currentUser.id, false);
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
     navigate('/login');
@@ -64,10 +62,6 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
 
   const closeNotificationMenu = () => {
     setNotificationOpen(false);
-  };
-
-  const toggleAvatarMenu = () => {
-    setAvatarMenuOpen(!avatarMenuOpen);
   };
 
   const toggleDarkMode = () => {
@@ -86,9 +80,8 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
           handleLogout={handleLogout} 
           toggleNotificationMenu={toggleNotificationMenu} 
           notificationOpen={notificationOpen} 
-          toggleAvatarMenu={toggleAvatarMenu}
-          avatarMenuOpen={avatarMenuOpen}
           toggleDarkMode={toggleDarkMode}
+          currentUser={currentUser}
         />
         <div className="admin-panel-sidebar">
           <ul>
@@ -113,7 +106,6 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
             {currentUser.role === 'Moderatör' && (
               <li><Link to="/admin/price-update"><i className="fas fa-dollar-sign fa-icon"></i>Fiyat Güncelleme</Link></li>
             )}
-            <li><Link to="/admin/statistics"><i className="fas fa-chart-bar fa-icon"></i>İstatistikler</Link></li>
             <li><button onClick={handleLogout}><i className="fas fa-sign-out-alt fa-icon"></i>Çıkış Yap</button></li>
           </ul>
         </div>
@@ -135,7 +127,6 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
             {currentUser.role === 'Moderatör' && (
               <Route path="price-update" element={<PriceUpdateForm />} />
             )}
-            <Route path="statistics" element={<Statistics />} />
           </Routes>
           <PriceTable 
             marqueeText={marqueeText} 

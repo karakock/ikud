@@ -28,11 +28,11 @@ const Footer = ({ symbols }) => {
             const filteredData = data.filter(item => symbols.includes(item.Code));
             const newFooterData = {};
             filteredData.forEach(item => {
-              if (item.Code === 'ONS') newFooterData.ons = item.Bid;
-              if (item.Code === 'USDTRY') newFooterData.usd = item.Bid;
-              if (item.Code === 'EURTRY') newFooterData.euro = item.Bid;
-              if (item.Code === 'EURUSD') newFooterData.parite = item.Bid;
-              if (item.Code === 'HAS') newFooterData.has = item.Bid;
+              if (item.Code === 'ONS') newFooterData.ons = roundToNearestTenth(item.Bid);
+              if (item.Code === 'USDTRY') newFooterData.usd = roundToNearestTenth(item.Bid);
+              if (item.Code === 'EURTRY') newFooterData.euro = roundToNearestTenth(item.Bid);
+              if (item.Code === 'EURUSD') newFooterData.parite = roundToNearestTenth(item.Bid);
+              if (item.Code === 'HAS') newFooterData.has = roundToNearestTenth(item.Bid);
             });
             setFooterData(newFooterData);
           }
@@ -43,7 +43,7 @@ const Footer = ({ symbols }) => {
 
       ws.onclose = (event) => {
         console.log('WebSocket connection closed:', event.reason);
-        setTimeout(connectWebSocket, 5000);
+        setTimeout(connectWebSocket, 30000);
       };
 
       ws.onerror = (error) => {
@@ -60,17 +60,21 @@ const Footer = ({ symbols }) => {
     };
   }, [symbols]);
 
+  const roundToNearestTenth = (number) => {
+    return Math.ceil(number * 10) / 10;
+  };
+
   return (
     <div className="footer-container">
       <div className="row">
-        <div className="col-sm p3">ONS <span>{footerData.ons}</span></div>
-        <div className="col-sm p3">USD <span>{footerData.usd}</span></div>
-        <div className="col-sm p3">EURO <span>{footerData.euro}</span></div>
-        <div className="col-sm p3">€/$ <span>{footerData.parite}</span></div>
-        <div className="col-sm p3">HAS <span>{footerData.has}</span></div>
+        <div className="col-sm p3">ONS <span>{footerData.ons.toFixed(2)}</span></div>
+        <div className="col-sm p3">USD <span>{footerData.usd.toFixed(2)}</span></div>
+        <div className="col-sm p3">EURO <span>{footerData.euro.toFixed(2)}</span></div>
+        <div className="col-sm p3">€/$ <span>{footerData.parite.toFixed(2)}</span></div>
+        <div className="col-sm p3">HAS <span>{footerData.has.toFixed(2)}</span></div>
       </div>
       <div className="row footer d-flex align-items-center justify-content-center">
-        <div className="col-sm p4 text-end footer-text" style={{ fontFamily: "Times New Roman, Times, serif", fontSize: "15px" }}>Copyright © 2024 İKUD. All rights reserved.</div>
+        <div className="col-sm p4 text-end footer-text" style={{ fontFamily: "Times New Roman, Times, serif", fontSize: "15px" }}></div>
       </div>
     </div>
   );

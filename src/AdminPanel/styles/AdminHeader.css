@@ -2,10 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem; /* Yan boşlukları artırdık */
-  background-color: #2c3e50; /* Daha koyu bir ton */
-  color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); /* Daha belirgin bir gölge */
+  padding: 1rem 2rem;
+  background-color: #2c3e50;
+  color: rgb(145, 0, 0);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   position: fixed;
   width: 100%;
   top: 0;
@@ -15,8 +15,8 @@
 
 .admin-header-left h1 {
   margin: 0;
-  font-size: 1.75rem; /* Font boyutunu biraz büyüttük */
-  font-weight: bold; /* Kalın yazı stili */
+  font-size: 1.75rem;
+  font-weight: bold;
 }
 
 .admin-header-right {
@@ -24,21 +24,92 @@
   align-items: center;
 }
 
-.admin-header-right span {
-  margin-right: 1.5rem; /* Aradaki boşluğu artırdık */
-  font-size: 1rem; /* Yazı boyutunu biraz büyüttük */
+.admin-header-right .dark-mode-toggle {
+  margin-right: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-header-right .dark-mode-toggle:hover {
+  color: #f39c12;
+}
+
+.admin-header-right .notification-icon {
+  position: relative;
+  margin-right: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.admin-header-right .notification-icon .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.admin-header-right .notification-icon:hover {
+  color: #f39c12;
+}
+
+.admin-header-right .notification-menu {
+  position: absolute;
+  top: 50px;
+  right: 2rem;
+  background-color: white;
+  color: black;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  display: none;
+  flex-direction: column;
+  width: 250px;
+  z-index: 1000;
+}
+
+.admin-header-right .notification-menu.open {
+  display: flex;
+}
+
+.admin-header-right .notification-item {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-header-right .notification-item:last-child {
+  border-bottom: none;
+}
+
+.admin-header-right .user-profile {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+}
+
+.admin-header-right .user-profile span {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.admin-header-right .user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .admin-header-right button {
-  background-color: #e74c3c; /* Daha estetik bir kırmızı tonu */
-  color: white;
+  background-color: #e74c3c;
+  color: rgb(214, 38, 38);
   border: none;
-  padding: 0.5rem 1.5rem; /* Daha geniş iç boşluk */
+  padding: 0.5rem 1.5rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Geçiş efekti ekledik */
+  transition: background-color 0.3s ease;
 }
 
 .admin-header-right button:hover {
-  background-color: #c0392b; /* Hover durumunda daha koyu bir ton */
+  background-color: #c0392b;
 }

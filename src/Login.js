@@ -1,4 +1,3 @@
-// src/Login.js
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Login.css';
@@ -10,14 +9,15 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { users, currentUser, setCurrentUser } = useContext(UserContext);
+  const { users, currentUser, setCurrentUser, setActiveStatus } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const user = users.find(u => u.name === username && u.password === password);
     if (user) {
-      if (user.role === 'Admin' || !currentUser) {
+      if (!user.isActive || !currentUser) {
         setCurrentUser(user);
+        await setActiveStatus(user.id, true);
         navigate('/admin');
       } else {
         setError('Kullanıcı zaten başka bir oturumda açık.');

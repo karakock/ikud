@@ -1,16 +1,15 @@
-/* src/styles/Carousel.css */
 .carousel-container {
-    width: 940px;
-    height: 360px;
-    margin: auto;
-    border: 3px solid #978f8f; /* Çerçeve ekleme */
-    border-radius: 8px; /* Köşeleri yuvarlama */
-    overflow: hidden; /* Taşan içeriği gizleme */
-  }
-  
-  .carousel-image {
-    width: 200px;
-    height: 360px;
-    object-fit: cover;
-  }
-  
+  width: 100%; /* Genişliği yüzdeye göre ayarlandı */
+  max-width: 940px; /* Maksimum genişlik ayarlandı */
+  height: 460px; /* Yükseklik korunuyor */
+  margin: 0 auto; /* Ortalanması için margin ayarlandı */
+  border: 3px solid #978f8f; /* Çerçeve ekleme */
+  border-radius: 8px; /* Köşeleri yuvarlama */
+  overflow: hidden; /* Taşan içeriği gizleme */
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

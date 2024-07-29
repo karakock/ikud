@@ -1,10 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import '../styles/PriceUpdateForm.css';
 import { OperationsContext } from '../context/OperationsContext'; // Import OperationsContext
 
 const PriceUpdateForm = () => {
-  const { updateOperations, resetOperations } = useContext(OperationsContext); // Use context
+  const { operations: contextOperations, updateOperations, resetOperations } = useContext(OperationsContext); // Use context
   const [operations, setOperations] = useState({});
+
+  useEffect(() => {
+    setOperations(contextOperations);
+  }, [contextOperations]);
 
   const handleOperationChange = (e, key, type) => {
     const value = e.target.value;
@@ -20,7 +24,6 @@ const PriceUpdateForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     updateOperations(operations);
-    setOperations({});
   };
 
   const handleReset = () => {

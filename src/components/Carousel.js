@@ -1,4 +1,3 @@
-// src/components/Carousel.js
 import React, { useContext } from 'react';
 import '../styles/Carousel.css';
 import { SlideContext } from '../AdminPanel/context/SlideContext';
@@ -30,4 +29,3 @@ const Carousel = () => {
 };
 
 export default Carousel;
- 

@@ -2,15 +2,15 @@
   width: 100%;
   background-color: #001a5e;
   color: white;
-  padding: 1px;;
+  padding: 20px; /* Padding arttırıldı */
   text-align: center;
   font-family: 'Times New Roman', Times, serif; 
-  font-size: 20px;
+  font-size: 40px; /* Yazı boyutu büyütüldü */
   font-weight: bold;
 }
 
 .footer-text {
   font-family: 'Times New Roman', Times, serif; 
-  font-size: 20px;
+  font-size: 25px; /* Yazı boyutu büyütüldü */
   font-weight: bold;
 }
