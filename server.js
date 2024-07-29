@@ -1,19 +1,38 @@
 const express = require('express');
 const fs = require('fs');
 const cors = require('cors');
+const path = require('path');
+const net = require('net');
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://stildunyasi.site', // Canlı domaininiz
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
+// React build dosyalarını servis edin
+app.use(express.static(path.join(__dirname, 'build')));
+
 const readUsersFromFile = () => {
-  const data = fs.readFileSync('users.json');
-  return JSON.parse(data);
+  try {
+    const data = fs.readFileSync('users.json');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error reading users.json:', error);
+    return [];
+  }
 };
 
 const writeUsersToFile = (users) => {
-  fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
+  try {
+    fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
+  } catch (error) {
+    console.error('Error writing to users.json:', error);
+  }
 };
 
 app.get('/users', (req, res) => {
@@ -36,6 +55,28 @@ app.delete('/users/:id', (req, res) => {
   res.json({ message: 'User deleted' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// Tüm diğer istekler için React'in index.html dosyasını gönderin
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+const checkPortAvailability = (port, callback) => {
+  const tester = net.createServer()
+    .once('error', err => (err.code === 'EADDRINUSE' ? callback(false) : callback(err)))
+    .once('listening', () => tester.once('close', () => callback(true)).close())
+    .listen(port);
+};
+
+checkPortAvailability(PORT, (isAvailable) => {
+  if (!isAvailable) {
+    console.log(`Port ${PORT} is in use. Trying another port...`);
+    const server = app.listen(0, () => {
+      const address = server.address();
+      console.log(`Server running on http://localhost:${address.port}`);
+    });
+  } else {
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  }
 });

@@ -14,7 +14,7 @@ const Footer = ({ symbols }) => {
     let ws;
 
     const connectWebSocket = () => {
-      ws = new WebSocket('wss://152.89.36.148:24876');
+      ws = new WebSocket('ws://152.89.36.148:24876');
 
       ws.onopen = () => {
         console.log('WebSocket connection opened');
@@ -70,7 +70,7 @@ const Footer = ({ symbols }) => {
         <div className="col-sm p3">HAS <span>{footerData.has}</span></div>
       </div>
       <div className="row footer d-flex align-items-center justify-content-center">
-        <div className="col-sm p4 text-end footer-text" style={{ fontFamily: "Times New Roman, Times, serif", fontSize: "15px" }}>Copyright © 2024 İKUD. All rights reserved.</div>
+        <div className="col-sm p4 text-end footer-text" style={{ fontFamily: "Times New Roman, Times, serif", fontSize: "15px" }}></div>
       </div>
     </div>
   );

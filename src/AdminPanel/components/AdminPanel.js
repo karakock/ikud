@@ -1,4 +1,3 @@
-// src/AdminPanel.js
 import React, { useContext, useEffect, useState } from 'react';
 import { Route, Routes, Link, Navigate, useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
@@ -7,7 +6,6 @@ import PriceUpdateForm from './PriceUpdateForm';
 import UserManagement from './UserManagement';
 import PendingRequests from './PendingRequests';
 import PriceTable from '../../components/PriceTable';
-import Statistics from './Statistics';
 import UserProfile from './UserProfile';
 import MarqueeSettings from './MarqueeSettings';
 import SlideManagement from './SlideManagement';
@@ -26,7 +24,6 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -66,10 +63,6 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
     setNotificationOpen(false);
   };
 
-  const toggleAvatarMenu = () => {
-    setAvatarMenuOpen(!avatarMenuOpen);
-  };
-
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     if (!darkMode) {
@@ -86,16 +79,15 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
           handleLogout={handleLogout} 
           toggleNotificationMenu={toggleNotificationMenu} 
           notificationOpen={notificationOpen} 
-          toggleAvatarMenu={toggleAvatarMenu}
-          avatarMenuOpen={avatarMenuOpen}
           toggleDarkMode={toggleDarkMode}
+          currentUser={currentUser}
         />
         <div className="admin-panel-sidebar">
           <ul>
             <li><Link to="/admin"><i className="fas fa-tachometer-alt fa-icon"></i>YÖNETİM PANELİ</Link></li>
+            <li><Link to="/"><i className="fas fa-home fa-icon"></i>Ana Sayfa</Link></li>
             {currentUser.role === 'Admin' && (
               <>
-                <li><Link to="/"><i className="fas fa-home fa-icon"></i>Ana Sayfa</Link></li>
                 <li>
                   <button onClick={toggleSidebar}><i className="fas fa-dollar-sign fa-icon"></i>Fiyat Güncelleme</button>
                   <div className={`submenu ${sidebarOpen ? 'open' : ''}`}>
@@ -113,7 +105,6 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
             {currentUser.role === 'Moderatör' && (
               <li><Link to="/admin/price-update"><i className="fas fa-dollar-sign fa-icon"></i>Fiyat Güncelleme</Link></li>
             )}
-            <li><Link to="/admin/statistics"><i className="fas fa-chart-bar fa-icon"></i>İstatistikler</Link></li>
             <li><button onClick={handleLogout}><i className="fas fa-sign-out-alt fa-icon"></i>Çıkış Yap</button></li>
           </ul>
         </div>
@@ -135,7 +126,6 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
             {currentUser.role === 'Moderatör' && (
               <Route path="price-update" element={<PriceUpdateForm />} />
             )}
-            <Route path="statistics" element={<Statistics />} />
           </Routes>
           <PriceTable 
             marqueeText={marqueeText} 
