@@ -18,6 +18,14 @@ const readUsersFromFile = async () => {
   }
 };
 
+const writeUsersToFile = async (users) => {
+  try {
+    await fs.writeFile('users.json', JSON.stringify(users, null, 2));
+  } catch (error) {
+    console.error('Error writing to users.json:', error);
+  }
+};
+
 app.get('/api/users', async (req, res) => {
   const users = await readUsersFromFile();
   res.json(users);
@@ -37,7 +45,7 @@ app.post('/api/users', async (req, res) => {
   const users = await readUsersFromFile();
   const newUser = { ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 };
   users.push(newUser);
-  await fs.writeFile('users.json', JSON.stringify(users, null, 2));
+  await writeUsersToFile(users);
   res.json(newUser);
 });
 
@@ -46,7 +54,7 @@ app.patch('/api/users/:id', async (req, res) => {
   const userIndex = users.findIndex(u => u.id === parseInt(req.params.id));
   if (userIndex !== -1) {
     users[userIndex] = { ...users[userIndex], ...req.body };
-    await fs.writeFile('users.json', JSON.stringify(users, null, 2));
+    await writeUsersToFile(users);
     res.json(users[userIndex]);
   } else {
     res.status(404).json({ message: 'User not found' });
@@ -56,7 +64,7 @@ app.patch('/api/users/:id', async (req, res) => {
 app.delete('/api/users/:id', async (req, res) => {
   let users = await readUsersFromFile();
   users = users.filter(user => user.id !== parseInt(req.params.id));
-  await fs.writeFile('users.json', JSON.stringify(users, null, 2));
+  await writeUsersToFile(users);
   res.json({ message: 'User deleted' });
 });
 
