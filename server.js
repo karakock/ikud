@@ -10,7 +10,7 @@ app.use(express.json());
 
 const readUsersFromFile = async () => {
   try {
-    const data = await fs.readFile('users.json', 'utf8');
+    const data = await fs.readFile(path.join(__dirname, 'users.json'), 'utf8');
     return JSON.parse(data);
   } catch (error) {
     console.error('Error reading users.json:', error);
@@ -20,7 +20,7 @@ const readUsersFromFile = async () => {
 
 const writeUsersToFile = async (users) => {
   try {
-    await fs.writeFile('users.json', JSON.stringify(users, null, 2));
+    await fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(users, null, 2));
   } catch (error) {
     console.error('Error writing to users.json:', error);
   }
