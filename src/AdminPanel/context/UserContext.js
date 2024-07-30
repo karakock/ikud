@@ -8,8 +8,8 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
 
   const apiUrl = process.env.NODE_ENV === 'production' 
-    ? 'https://ikudfiyat.org.tr/users' 
-    : 'http://localhost:54977/users';
+    ? 'http://stildunyasi.site/api/users' 
+    : `http://localhost:${process.env.REACT_APP_BACKEND_PORT || 5000}/api/users`;
 
   const setActiveStatus = useCallback(async (userId, status) => {
     try {
@@ -23,8 +23,13 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(apiUrl);
-        setUsers(response.data);
+        const { data } = await axios.get(apiUrl);
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else {
+          setUsers([]);
+          console.error('Beklenmeyen yanıt formatı:', data);
+        }
       } catch (error) {
         console.error('Kullanıcıları çekerken hata:', error.message);
         if (error.response) {
@@ -35,6 +40,7 @@ export const UserProvider = ({ children }) => {
         } else {
           console.error('İstek kurulurken hata:', error.message);
         }
+        setUsers([]);  // Hata durumunda users değişkenini boş bir diziye ayarlayın
       }
     };
 
@@ -52,8 +58,8 @@ export const UserProvider = ({ children }) => {
 
   const addUser = async (newUser) => {
     try {
-      const response = await axios.post(apiUrl, newUser);
-      setUsers(prevUsers => [...prevUsers, response.data]);
+      const { data } = await axios.post(apiUrl, newUser);
+      setUsers(prevUsers => [...prevUsers, data]);
     } catch (error) {
       console.error('Kullanıcı eklenirken hata:', error.message);
       if (error.response) {
