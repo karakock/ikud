@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs').promises;
 const cors = require('cors');
 const path = require('path');
 const net = require('net');
@@ -7,8 +7,17 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: 'http://stildunyasi.site', // Canlı domaininiz
-  optionsSuccessStatus: 200
+  origin: (origin, callback) => {
+    const allowedOrigins = ['http://localhost:3000', 'http://localhost:54977', 'http://stildunyasi.site'];
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -17,9 +26,9 @@ app.use(express.json());
 // React build dosyalarını servis edin
 app.use(express.static(path.join(__dirname, 'build')));
 
-const readUsersFromFile = () => {
+const readUsersFromFile = async () => {
   try {
-    const data = fs.readFileSync('users.json');
+    const data = await fs.readFile('users.json');
     return JSON.parse(data);
   } catch (error) {
     console.error('Error reading users.json:', error);
@@ -27,31 +36,31 @@ const readUsersFromFile = () => {
   }
 };
 
-const writeUsersToFile = (users) => {
+const writeUsersToFile = async (users) => {
   try {
-    fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
+    await fs.writeFile('users.json', JSON.stringify(users, null, 2));
   } catch (error) {
     console.error('Error writing to users.json:', error);
   }
 };
 
-app.get('/users', (req, res) => {
-  const users = readUsersFromFile();
+app.get('/users', async (req, res) => {
+  const users = await readUsersFromFile();
   res.json(users);
 });
 
-app.post('/users', (req, res) => {
-  const users = readUsersFromFile();
+app.post('/users', async (req, res) => {
+  const users = await readUsersFromFile();
   const newUser = { ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 };
   users.push(newUser);
-  writeUsersToFile(users);
+  await writeUsersToFile(users);
   res.json(newUser);
 });
 
-app.delete('/users/:id', (req, res) => {
-  let users = readUsersFromFile();
+app.delete('/users/:id', async (req, res) => {
+  let users = await readUsersFromFile();
   users = users.filter(user => user.id !== parseInt(req.params.id));
-  writeUsersToFile(users);
+  await writeUsersToFile(users);
   res.json({ message: 'User deleted' });
 });
 

@@ -8,17 +8,17 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
 
   const apiUrl = process.env.NODE_ENV === 'production' 
-    ? 'http://stildunyasi.site/users' 
-    : 'http://localhost:5000/users';
+    ? 'https://ikudfiyat.org.tr/users' 
+    : 'http://localhost:54977/users';
 
   const setActiveStatus = useCallback(async (userId, status) => {
     try {
       await axios.patch(`${apiUrl}/${userId}`, { isActive: status });
-      setUsers(users.map(user => user.id === userId ? { ...user, isActive: status } : user));
+      setUsers(prevUsers => prevUsers.map(user => user.id === userId ? { ...user, isActive: status } : user));
     } catch (error) {
       console.error('Aktif durum ayarlanırken hata:', error.message);
     }
-  }, [apiUrl, users]);
+  }, [apiUrl]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -53,7 +53,7 @@ export const UserProvider = ({ children }) => {
   const addUser = async (newUser) => {
     try {
       const response = await axios.post(apiUrl, newUser);
-      setUsers([...users, response.data]);
+      setUsers(prevUsers => [...prevUsers, response.data]);
     } catch (error) {
       console.error('Kullanıcı eklenirken hata:', error.message);
       if (error.response) {
