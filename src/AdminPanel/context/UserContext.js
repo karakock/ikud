@@ -8,13 +8,14 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
 
   const apiUrl = process.env.NODE_ENV === 'production' 
-    ? 'http://stildunyasi.site:5000/users' 
-    : 'http://localhost:5000/users';
+  ? 'http://stildunyasi.site:5001/users' // Canlı sunucu adresiniz
+  : 'http://localhost:5001/users';
+
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(apiUrl, { timeout: 5000 });
         if (Array.isArray(response.data)) {
           setUsers(response.data);
         } else {
@@ -61,17 +62,16 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const setActiveStatus = (isActive) => {
-    if (currentUser) {
-      const updatedUser = { ...currentUser, isActive };
-      setCurrentUser(updatedUser);
-
-      // Kullanıcılar listesini de güncelleyin
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === updatedUser.id ? updatedUser : user
-        )
+  const setActiveStatus = async (id, status) => {
+    try {
+      const updatedUsers = users.map(user =>
+        user.id === id ? { ...user, isActive: status } : user
       );
+      setUsers(updatedUsers);
+      // Sunucuya PUT isteği yaparak kullanıcı durumunu güncelleyebilirsiniz
+      await axios.put(`${apiUrl}/${id}`, { isActive: status });
+    } catch (error) {
+      console.error('Error updating user status:', error.message);
     }
   };
 

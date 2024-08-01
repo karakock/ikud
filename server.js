@@ -3,24 +3,14 @@ const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
-// CORS ayarları
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || ['http://localhost:3000', 'http://localhost:3001'].indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// Kullanıcıları dosyadan oku
+// Build dosyalarını servis et
+app.use(express.static(path.join(__dirname, 'build')));
+
 const readUsersFromFile = () => {
   try {
     const data = fs.readFileSync('users.json', 'utf8');
@@ -31,7 +21,6 @@ const readUsersFromFile = () => {
   }
 };
 
-// Kullanıcıları dosyaya yaz
 const writeUsersToFile = (users) => {
   try {
     fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
@@ -40,13 +29,11 @@ const writeUsersToFile = (users) => {
   }
 };
 
-// Kullanıcıları alma
 app.get('/users', (req, res) => {
   const users = readUsersFromFile();
   res.json(users);
 });
 
-// Kullanıcı ekleme
 app.post('/users', (req, res) => {
   const users = readUsersFromFile();
   const newUser = { ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 };
@@ -55,7 +42,6 @@ app.post('/users', (req, res) => {
   res.json(newUser);
 });
 
-// Kullanıcı silme
 app.delete('/users/:id', (req, res) => {
   let users = readUsersFromFile();
   users = users.filter(user => user.id !== parseInt(req.params.id));
@@ -63,11 +49,20 @@ app.delete('/users/:id', (req, res) => {
   res.json({ message: 'User deleted' });
 });
 
-// Tüm diğer istekler için React'in index.html dosyasını gönderin
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+}).on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.log(`Port ${PORT} is in use, trying another port...`);
+    app.listen(0, () => {
+      const address = app.address();
+      console.log(`Server running on http://localhost:${address.port}`);
+    });
+  } else {
+    console.error(err);
+  }
 });

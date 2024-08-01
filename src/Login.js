@@ -18,7 +18,7 @@ const Login = () => {
       if (!user.isActive || !currentUser) {
         setCurrentUser(user);
         await setActiveStatus(user.id, true);
-        navigate('/admin');
+        navigate('/admin', { replace: true }); // Kullanıcıyı yönlendirirken replace kullanın
       } else {
         setError('Kullanıcı zaten başka bir oturumda açık.');
       }
@@ -40,6 +40,7 @@ const Login = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
+                autoComplete="username" // Autocomplete özelliği eklendi
               />
               <label>Kullanıcı Adı</label>
             </div>
@@ -49,6 +50,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                autoComplete="current-password" // Autocomplete özelliği eklendi
               />
               <label>Şifre</label>
             </div>
