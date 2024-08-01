@@ -38,7 +38,6 @@ const PriceTable = ({ marqueeText, scrollAmount, symbols, show18Ayar, show14Ayar
         console.log('WebSocket connection closed, retrying...');
         setTimeout(connectWebSocket, 30000);
       };
-
       ws.onerror = (error) => {
         console.error('WebSocket error:', error);
       };

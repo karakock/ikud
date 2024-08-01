@@ -5,7 +5,7 @@
     "email": "ozcan@example.com",
     "role": "Admin",
     "password": "1234",
-    "isActive": true
+    "isActive": false 
   },
   {
     "id": 2,

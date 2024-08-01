@@ -1,16 +1,29 @@
 const express = require('express');
-const fs = require('fs').promises;
-const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// CORS ayarları
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || ['http://localhost:3000', 'http://localhost:3001'].indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
-const readUsersFromFile = async () => {
+// Kullanıcıları dosyadan oku
+const readUsersFromFile = () => {
   try {
-    const data = await fs.readFile(path.join(__dirname, 'users.json'), 'utf8');
+    const data = fs.readFileSync('users.json', 'utf8');
     return JSON.parse(data);
   } catch (error) {
     console.error('Error reading users.json:', error);
@@ -18,58 +31,39 @@ const readUsersFromFile = async () => {
   }
 };
 
-const writeUsersToFile = async (users) => {
+// Kullanıcıları dosyaya yaz
+const writeUsersToFile = (users) => {
   try {
-    await fs.writeFile(path.join(__dirname, 'users.json'), JSON.stringify(users, null, 2));
+    fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
   } catch (error) {
     console.error('Error writing to users.json:', error);
   }
 };
 
-app.get('/api/users', async (req, res) => {
-  const users = await readUsersFromFile();
+// Kullanıcıları alma
+app.get('/users', (req, res) => {
+  const users = readUsersFromFile();
   res.json(users);
 });
 
-app.get('/api/users/:id', async (req, res) => {
-  const users = await readUsersFromFile();
-  const user = users.find(u => u.id === parseInt(req.params.id));
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ message: 'User not found' });
-  }
-});
-
-app.post('/api/users', async (req, res) => {
-  const users = await readUsersFromFile();
+// Kullanıcı ekleme
+app.post('/users', (req, res) => {
+  const users = readUsersFromFile();
   const newUser = { ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 };
   users.push(newUser);
-  await writeUsersToFile(users);
+  writeUsersToFile(users);
   res.json(newUser);
 });
 
-app.patch('/api/users/:id', async (req, res) => {
-  const users = await readUsersFromFile();
-  const userIndex = users.findIndex(u => u.id === parseInt(req.params.id));
-  if (userIndex !== -1) {
-    users[userIndex] = { ...users[userIndex], ...req.body };
-    await writeUsersToFile(users);
-    res.json(users[userIndex]);
-  } else {
-    res.status(404).json({ message: 'User not found' });
-  }
-});
-
-app.delete('/api/users/:id', async (req, res) => {
-  let users = await readUsersFromFile();
+// Kullanıcı silme
+app.delete('/users/:id', (req, res) => {
+  let users = readUsersFromFile();
   users = users.filter(user => user.id !== parseInt(req.params.id));
-  await writeUsersToFile(users);
+  writeUsersToFile(users);
   res.json({ message: 'User deleted' });
 });
 
-app.use(express.static(path.join(__dirname, 'build')));
-
+// Tüm diğer istekler için React'in index.html dosyasını gönderin
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });

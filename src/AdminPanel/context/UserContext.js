@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 export const UserContext = createContext();
@@ -8,68 +8,70 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
 
   const apiUrl = process.env.NODE_ENV === 'production' 
-    ? 'http://stildunyasi.site/api/users' 
-    : `http://localhost:${process.env.REACT_APP_BACKEND_PORT || 5000}/api/users`;
-
-  const setActiveStatus = useCallback(async (userId, status) => {
-    try {
-      await axios.patch(`${apiUrl}/${userId}`, { isActive: status });
-      setUsers(prevUsers => prevUsers.map(user => user.id === userId ? { ...user, isActive: status } : user));
-    } catch (error) {
-      console.error('Aktif durum ayarlanırken hata:', error.message);
-    }
-  }, [apiUrl]);
+    ? 'http://stildunyasi.site:5000/users' 
+    : 'http://localhost:5000/users';
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const { data } = await axios.get(apiUrl);
-        if (Array.isArray(data)) {
-          setUsers(data);
+        const response = await axios.get(apiUrl);
+        if (Array.isArray(response.data)) {
+          setUsers(response.data);
         } else {
-          setUsers([]);
-          console.error('Beklenmeyen yanıt formatı:', data);
+          console.error('API yanıtı bir dizi değil:', response.data);
         }
       } catch (error) {
-        console.error('Kullanıcıları çekerken hata:', error.message);
+        console.error('Kullanıcıları çekerken hata oluştu:', error.message);
         if (error.response) {
           console.error('Sunucu durumu:', error.response.status);
           console.error('Yanıt verisi:', error.response.data);
         } else if (error.request) {
           console.error('Yanıt alınamadı:', error.request);
         } else {
-          console.error('İstek kurulurken hata:', error.message);
+          console.error('İstek hatası:', error.message);
         }
-        setUsers([]);  // Hata durumunda users değişkenini boş bir diziye ayarlayın
       }
     };
-
+  
     fetchUsers();
   }, [apiUrl]);
 
   useEffect(() => {
     if (currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      setActiveStatus(currentUser.id, true);
     } else {
       localStorage.removeItem('currentUser');
     }
-  }, [currentUser, setActiveStatus]);
+  }, [currentUser]);
 
   const addUser = async (newUser) => {
     try {
-      const { data } = await axios.post(apiUrl, newUser);
-      setUsers(prevUsers => [...prevUsers, data]);
+      const response = await axios.post(apiUrl, newUser);
+      setUsers((prevUsers) => [...prevUsers, response.data]);
     } catch (error) {
-      console.error('Kullanıcı eklenirken hata:', error.message);
+      console.error('Error adding user:', error.message);
       if (error.response) {
-        console.error('Sunucu durumu:', error.response.status);
-        console.error('Yanıt verisi:', error.response.data);
+        console.error('Server responded with a status:', error.response.status);
+        console.error('Response data:', error.response.data);
       } else if (error.request) {
-        console.error('Yanıt alınamadı:', error.request);
+        console.error('No response received:', error.request);
       } else {
-        console.error('İstek kurulurken hata:', error.message);
+        console.error('Error setting up the request:', error.message);
       }
+    }
+  };
+
+  const setActiveStatus = (isActive) => {
+    if (currentUser) {
+      const updatedUser = { ...currentUser, isActive };
+      setCurrentUser(updatedUser);
+
+      // Kullanıcılar listesini de güncelleyin
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === updatedUser.id ? updatedUser : user
+        )
+      );
     }
   };
 
