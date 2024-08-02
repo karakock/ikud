@@ -9,6 +9,7 @@ export const UserProvider = ({ children }) => {
 
   const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001/users';
 
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {

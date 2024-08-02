@@ -6,7 +6,13 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // CORS ayarları
-app.use(cors({ origin: 'https://ikudfiyat.org.tr' })); // Canlı sunucu için doğru domain
+const corsOptions = {
+  origin: ['http://stildunyasi.site', 'http://localhost:3000'], // Güvenli domainleri belirleyin
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // JSON dosyasını otomatik olarak oku ve belleğe yükle
@@ -62,8 +68,10 @@ app.delete('/users/:id', (req, res) => {
   });
 });
 
-// Tüm yolları karşıla ve index.html döndür
+// Statik dosyaları servis et
 app.use(express.static(path.join(__dirname, 'build')));
+
+// Tüm yolları yakala ve index.html döndür
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
