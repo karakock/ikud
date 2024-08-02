@@ -13,7 +13,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = users.find(u => u.name === username && u.password === password);
+    setError(''); // Hata mesajını temizleyin
+    const user = users.find((u) => u.name.toLowerCase() === username.toLowerCase() && u.password === password);
+
     if (user) {
       if (!user.isActive || !currentUser) {
         setCurrentUser(user);
@@ -41,6 +43,7 @@ const Login = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoComplete="username" // Autocomplete özelliği eklendi
+                placeholder="Kullanıcı Adı"
               />
               <label>Kullanıcı Adı</label>
             </div>
@@ -51,6 +54,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password" // Autocomplete özelliği eklendi
+                placeholder="Şifre"
               />
               <label>Şifre</label>
             </div>

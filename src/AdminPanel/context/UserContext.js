@@ -7,15 +7,12 @@ export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
 
-  const apiUrl = process.env.NODE_ENV === 'production' 
-  ? 'http://stildunyasi.site:5001/users' // Canlı sunucu adresiniz
-  : 'http://localhost:5001/users';
-
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001/users';
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(apiUrl, { timeout: 5000 });
+        const response = await axios.get(apiUrl, { timeout: 10000 });
         if (Array.isArray(response.data)) {
           setUsers(response.data);
         } else {
@@ -31,9 +28,10 @@ export const UserProvider = ({ children }) => {
         } else {
           console.error('İstek hatası:', error.message);
         }
+        alert('Kullanıcıları yüklerken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
       }
     };
-  
+
     fetchUsers();
   }, [apiUrl]);
 
@@ -68,10 +66,17 @@ export const UserProvider = ({ children }) => {
         user.id === id ? { ...user, isActive: status } : user
       );
       setUsers(updatedUsers);
-      // Sunucuya PUT isteği yaparak kullanıcı durumunu güncelleyebilirsiniz
       await axios.put(`${apiUrl}/${id}`, { isActive: status });
     } catch (error) {
       console.error('Error updating user status:', error.message);
+      if (error.response) {
+        console.error('Server responded with a status:', error.response.status);
+        console.error('Response data:', error.response.data);
+      } else if (error.request) {
+        console.error('No response received:', error.request);
+      } else {
+        console.error('Error setting up the request:', error.message);
+      }
     }
   };
 

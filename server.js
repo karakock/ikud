@@ -1,68 +1,74 @@
 const express = require('express');
-const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors({ origin: '*' }));
+// CORS ayarları
+app.use(cors({ origin: 'https://ikudfiyat.org.tr' })); // Canlı sunucu için doğru domain
 app.use(express.json());
 
-// Build dosyalarını servis et
-app.use(express.static(path.join(__dirname, 'build')));
-
-const readUsersFromFile = () => {
+// JSON dosyasını otomatik olarak oku ve belleğe yükle
+let users = [];
+const loadUsers = () => {
   try {
     const data = fs.readFileSync('users.json', 'utf8');
-    return JSON.parse(data);
+    users = JSON.parse(data);
+    console.log('Users loaded from JSON file:', users);
   } catch (error) {
     console.error('Error reading users.json:', error);
-    return [];
   }
 };
 
-const writeUsersToFile = (users) => {
-  try {
-    fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
-  } catch (error) {
-    console.error('Error writing to users.json:', error);
-  }
-};
+// Sunucu başlatıldığında kullanıcıları yükle
+loadUsers();
 
+// Kullanıcıları listeleme API'si
 app.get('/users', (req, res) => {
-  const users = readUsersFromFile();
   res.json(users);
 });
 
+// Yeni kullanıcı ekleme API'si
 app.post('/users', (req, res) => {
-  const users = readUsersFromFile();
   const newUser = { ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 };
   users.push(newUser);
-  writeUsersToFile(users);
-  res.json(newUser);
+  fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to users.json:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(newUser);
+  });
 });
 
+// Kullanıcı silme API'si
 app.delete('/users/:id', (req, res) => {
-  let users = readUsersFromFile();
-  users = users.filter(user => user.id !== parseInt(req.params.id));
-  writeUsersToFile(users);
-  res.json({ message: 'User deleted' });
+  const userId = parseInt(req.params.id);
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  }
+  const initialLength = users.length;
+  users = users.filter(user => user.id !== userId);
+  if (users.length === initialLength) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to users.json:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'User deleted' });
+  });
 });
 
+// Tüm yolları karşıla ve index.html döndür
+app.use(express.static(path.join(__dirname, 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(PORT, () => {
+// Sunucuyu başlat
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${PORT}`);
-}).on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.log(`Port ${PORT} is in use, trying another port...`);
-    app.listen(0, () => {
-      const address = app.address();
-      console.log(`Server running on http://localhost:${address.port}`);
-    });
-  } else {
-    console.error(err);
-  }
 });

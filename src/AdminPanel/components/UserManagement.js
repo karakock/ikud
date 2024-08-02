@@ -33,7 +33,7 @@ const UserManagement = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/users/${userId}`);
+      await axios.delete(`http://localhost:5001/users/${userId}`);
       setUsers(users.filter((user) => user.id !== userId));
       setNotification({ message: 'User deleted successfully!', type: 'success' });
     } catch (error) {

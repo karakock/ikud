@@ -1,38 +1,38 @@
 [
-  {
-    "id": 1,
-    "name": "ozcan",
-    "email": "ozcan@example.com",
-    "role": "Admin",
-    "password": "1234",
-    "isActive": false 
-  },
-  {
-    "id": 2,
-    "name": "emre",
-    "email": "hasan@hotmail.com",
-    "role": "Kullanıcı",
-    "password": "1234"
-  },
-  {
-    "id": 3,
-    "name": "anıl",
-    "email": "anıl@hotmail.com",
-    "role": "Moderatör",
-    "password": "1234"
-  },
-  {
-    "id": 4,
-    "name": "erkan",
-    "email": "erkan@hotmail.com",
-    "role": "Admin",
-    "password": "1234"
-  },
-  {
-    "id": 5,
-    "name": "Erkan",
-    "email": "kadsaksd@hotmail.com",
-    "role": "Admin",
-    "password": "12334"
-  }
-]
+    {
+      "id": 1,
+      "name": "ozcan",
+      "email": "ozcan@example.com",
+      "role": "Admin",
+      "password": "1234",
+      "isActive": false 
+    },
+    {
+      "id": 2,
+      "name": "emre",
+      "email": "hasan@hotmail.com",
+      "role": "Kullanıcı",
+      "password": "1234"
+    },
+    {
+      "id": 3,
+      "name": "anıl",
+      "email": "anıl@hotmail.com",
+      "role": "Moderatör",
+      "password": "1234"
+    },
+    {
+      "id": 4,
+      "name": "erkan",
+      "email": "erkan@hotmail.com",
+      "role": "Admin",
+      "password": "1234"
+    },
+    {
+      "id": 5,
+      "name": "Erkan",
+      "email": "kadsaksd@hotmail.com",
+      "role": "Admin",
+      "password": "12334"
+    }
+  ]
