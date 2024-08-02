@@ -7,8 +7,7 @@ export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
 
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001/users';
-
+  const apiUrl = process.env.REACT_APP_API_URL || '/users'; // Proxy kullanarak istek yap
 
   useEffect(() => {
     const fetchUsers = async () => {

@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5001;
 
 // CORS ayarları
 const corsOptions = {
-  origin: ['http://stildunyasi.site', 'http://localhost:3000'], // Güvenli domainleri belirleyin
+  origin: ['https://stildunyasi.site', 'http://localhost:3000'], // Güvenli domainleri belirleyin
   methods: ['GET', 'POST', 'DELETE', 'PUT'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
