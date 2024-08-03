@@ -10,9 +10,7 @@ const UserProfile = () => {
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    console.log('User ID from params:', userId); // Debugging line
     const selectedUser = users.find(user => user.id.toString() === userId);
-    console.log('Selected user:', selectedUser); // Debugging line
     if (selectedUser) {
       setUserInfo(selectedUser);
     }

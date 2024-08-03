@@ -17,7 +17,7 @@ const Login = () => {
     if (user) {
       if (!user.isActive || !currentUser) {
         setCurrentUser(user);
-        await setActiveStatus(user.id, true);
+        setActiveStatus(user.id, true); // setActiveStatus çağrısı
         navigate('/admin');
       } else {
         setError('Kullanıcı zaten başka bir oturumda açık.');

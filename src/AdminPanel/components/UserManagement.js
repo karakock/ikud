@@ -3,10 +3,9 @@ import Notification from './Notification';
 import '../styles/UserManagement.css';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
-import axios from 'axios';
 
 const UserManagement = () => {
-  const { users, setUsers, addUser } = useContext(UserContext);
+  const { users, setUsers, addUser, deleteUser } = useContext(UserContext);
   const [newUser, setNewUser] = useState({ name: '', email: '', role: 'Kullanıcı', password: '' });
   const [notification, setNotification] = useState({ message: '', type: '' });
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const UserManagement = () => {
     }
 
     try {
-      await addUser(newUser);
+      addUser(newUser);
       setNewUser({ name: '', email: '', role: 'Kullanıcı', password: '' });
       setNotification({ message: 'User added successfully!', type: 'success' });
     } catch (error) {
@@ -33,12 +32,16 @@ const UserManagement = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/users/${userId}`);
-      setUsers(users.filter((user) => user.id !== userId));
+      deleteUser(userId);
       setNotification({ message: 'User deleted successfully!', type: 'success' });
     } catch (error) {
       setNotification({ message: 'Error deleting user', type: 'error' });
     }
+  };
+
+  const handleResetUsers = () => {
+    setUsers([]); // Kullanıcı listesini sıfırlar
+    setNotification({ message: 'User list reset successfully!', type: 'success' });
   };
 
   const handleEditUser = (user) => {
@@ -92,6 +95,7 @@ const UserManagement = () => {
           />
         </div>
         <button className="save-button" onClick={handleAddUser}>Add User</button>
+        <button className="reset-button" onClick={handleResetUsers}>Reset Users</button>
       </div>
       <table className="user-table">
         <thead>

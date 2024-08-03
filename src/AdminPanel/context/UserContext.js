@@ -1,75 +1,84 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
+// users.json yerine localStorage ile çalışacak şekilde ayarlandı
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
 
-  const apiUrl = process.env.NODE_ENV === 'production' 
-    ? 'http://stildunyasi.site/users' 
-    : 'http://localhost:5000/users';
-
-  const setActiveStatus = useCallback(async (userId, status) => {
-    try {
-      await axios.patch(`${apiUrl}/${userId}`, { isActive: status });
-      setUsers(users.map(user => user.id === userId ? { ...user, isActive: status } : user));
-    } catch (error) {
-      console.error('Aktif durum ayarlanırken hata:', error.message);
-    }
-  }, [apiUrl, users]);
-
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(apiUrl);
-        setUsers(response.data);
-      } catch (error) {
-        console.error('Kullanıcıları çekerken hata:', error.message);
-        if (error.response) {
-          console.error('Sunucu durumu:', error.response.status);
-          console.error('Yanıt verisi:', error.response.data);
-        } else if (error.request) {
-          console.error('Yanıt alınamadı:', error.request);
-        } else {
-          console.error('İstek kurulurken hata:', error.message);
-        }
-      }
-    };
-
-    fetchUsers();
-  }, [apiUrl]);
+    // localStorage'dan kullanıcıları yükle
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    setUsers(storedUsers);
+  }, []);
 
   useEffect(() => {
     if (currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      setActiveStatus(currentUser.id, true);
     } else {
       localStorage.removeItem('currentUser');
     }
-  }, [currentUser, setActiveStatus]);
+  }, [currentUser]);
 
-  const addUser = async (newUser) => {
+  const addUser = (newUser) => {
     try {
-      const response = await axios.post(apiUrl, newUser);
-      setUsers([...users, response.data]);
+      const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
+      setUsers(updatedUsers);
+      localStorage.setItem('users', JSON.stringify(updatedUsers)); // localStorage'a kaydet
     } catch (error) {
-      console.error('Kullanıcı eklenirken hata:', error.message);
-      if (error.response) {
-        console.error('Sunucu durumu:', error.response.status);
-        console.error('Yanıt verisi:', error.response.data);
-      } else if (error.request) {
-        console.error('Yanıt alınamadı:', error.request);
-      } else {
-        console.error('İstek kurulurken hata:', error.message);
-      }
+      console.error('Error adding user:', error.message);
+    }
+  };
+
+  const deleteUser = (userId) => {
+    try {
+      const updatedUsers = users.filter(user => user.id !== userId);
+      setUsers(updatedUsers);
+      localStorage.setItem('users', JSON.stringify(updatedUsers)); // localStorage'a kaydet
+    } catch (error) {
+      console.error('Error deleting user:', error.message);
+    }
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    // Diğer logout işlemleri buraya eklenebilir
+  };
+
+  const setActiveStatus = (userId, isActive) => {
+    try {
+      const updatedUsers = users.map(user =>
+        user.id === userId ? { ...user, isActive: isActive } : user
+      );
+      setUsers(updatedUsers);
+      localStorage.setItem('users', JSON.stringify(updatedUsers)); // localStorage'a kaydet
+    } catch (error) {
+      console.error('Error updating user status:', error.message);
     }
   };
 
   return (
-    <UserContext.Provider value={{ users, setUsers, currentUser, setCurrentUser, addUser, setActiveStatus }}>
+    <UserContext.Provider value={{ users, setUsers, currentUser, setCurrentUser, addUser, deleteUser, handleLogout, setActiveStatus }}>
       {children}
     </UserContext.Provider>
+  );
+};
+
+// Kullanım örneği:
+export const SomeComponent = () => {
+  const { currentUser, handleLogout } = useContext(UserContext);
+
+  return (
+    <div>
+      {currentUser ? (
+        <>
+          <p>Welcome, {currentUser.name}!</p>
+          <button onClick={handleLogout}>Logout</button>
+        </>
+      ) : (
+        <p>Please log in.</p>
+      )}
+    </div>
   );
 };

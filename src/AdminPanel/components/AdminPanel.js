@@ -46,7 +46,7 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
   }
 
   const handleLogout = async () => {
-    await setActiveStatus(currentUser.id, false);
+    setActiveStatus(false); // Logout sırasında aktif durumu false yapıyoruz
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
     navigate('/login');
