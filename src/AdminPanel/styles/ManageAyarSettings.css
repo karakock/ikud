@@ -1,50 +1,93 @@
 .manage-ayar-settings {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.manage-ayar-settings:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+.manage-ayar-settings h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.settings-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-option:hover {
+  background-color: #ececec;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.settings-option input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.settings-option label {
+  margin-left: 5px;
+  font-size: 18px;
+  color: #555;
+  flex-grow: 1;
+}
+
+.save-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #5ccf60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.save-message {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #28a745;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .manage-ayar-settings h2 {
-    text-align: center;
-    color: #333;
+  to {
+    opacity: 1;
   }
-  
-  .settings-option {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .settings-option label {
-    margin-left: 10px;
-    font-size: 18px;
-    color: #555;
-  }
-  
-  .save-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .save-button:hover {
-    background-color: #45a049;
-  }
-  
-  .save-message {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 16px;
-    color: #28a745;
-  }
-  
+}

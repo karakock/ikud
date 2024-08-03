@@ -1,4 +1,3 @@
-// src/AdminPanel/components/SlideManagement.js
 import React, { useState, useContext } from 'react';
 import '../styles/SlideManagement.css';
 import { SlideContext } from '../context/SlideContext';
@@ -7,6 +6,7 @@ const SlideManagement = () => {
   const { slides, addSlide, removeSlide } = useContext(SlideContext);
   const [newSlide, setNewSlide] = useState({ image: '', title: '' });
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -14,7 +14,9 @@ const SlideManagement = () => {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setFile(file);
+    setFileName(file ? file.name : '');
   };
 
   const handleAddSlide = () => {
@@ -24,6 +26,7 @@ const SlideManagement = () => {
         addSlide({ image: reader.result, title: newSlide.title });
         setNewSlide({ image: '', title: '' });
         setFile(null);
+        setFileName(''); // Formu sıfırlama
       };
       reader.readAsDataURL(file);
     } else {
@@ -51,14 +54,15 @@ const SlideManagement = () => {
           type="file"
           onChange={handleFileChange}
         />
+        {fileName && <p className="file-name">{fileName}</p>}
         <button onClick={handleAddSlide}>Ekle</button>
       </div>
       <div className="slide-list">
         {slides.map((slide, index) => (
           <div key={index} className="slide-item">
             <img src={slide.image} alt={slide.title} className="slide-image" />
-            <p>{slide.title}</p>
-            <button onClick={() => handleRemoveSlide(index)}>Kaldır</button>
+            <p className="slide-title">{slide.title}</p>
+            <button className="remove-button" onClick={() => handleRemoveSlide(index)}>Kaldır</button>
           </div>
         ))}
       </div>

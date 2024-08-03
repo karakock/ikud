@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Header.css';
 import bayrakGif from '../img/bayrak.gif';
-import kudiImage from '../img/kudi.png';
+import kudiImage from '../img/log10.png';
 
 const Header = () => (
   <div className="header-container">

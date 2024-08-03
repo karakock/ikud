@@ -2,14 +2,17 @@
   background-color: #001F5B;
   color: #FFFFFF;
   font-size: 1.4em; /* Yazı boyutunu büyütme */
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .header2 {
   font-size: 1.2em; /* Yazı boyutunu büyütme */
-  font-weight: bold;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
+
 .r {
   color: red;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .header3 {
@@ -17,46 +20,55 @@
   color: #FFFFFF;
   font-size: 2em; /* Yazı boyutunu büyütme */
   padding: 20px;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .header4 {
   background-color: #345678;
   color: #FFFFFF;
   font-size: 1.5em; /* Yazı boyutunu büyütme */
- 
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .p3 {
   padding: 12px;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .bg-light {
   background-color: #b3b5b8 !important;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .text-dark {
   color: #343a40 !important;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .h {
   text-align: left;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .d {
   text-align: center;
   color: yellow;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .border-bottom {
   border-bottom: 3px solid #ccc;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .text-center {
   text-align: center;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .text-right {
   text-align: right;
+  font-weight: bold; /* Yazıları kalın yapma */
 }
 
 .container-fluid {

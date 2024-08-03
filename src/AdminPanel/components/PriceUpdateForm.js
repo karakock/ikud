@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import '../styles/PriceUpdateForm.css';
-import { OperationsContext } from '../context/OperationsContext'; // Import OperationsContext
+import { OperationsContext } from '../context/OperationsContext';
 
 const PriceUpdateForm = () => {
-  const { operations: contextOperations, updateOperations, resetOperations } = useContext(OperationsContext); // Use context
+  const { operations: contextOperations, updateOperations, resetOperations } = useContext(OperationsContext);
   const [operations, setOperations] = useState({});
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const PriceUpdateForm = () => {
           <input
             type="text"
             id={`${field.key}_Bid`}
-            placeholder="Operation (+, -, *, /)"
+            placeholder="Örn: +, -, *, /"
             value={operations[field.key]?.Bid || ''}
             onChange={(e) => handleOperationChange(e, field.key, 'Bid')}
           />
@@ -61,15 +61,15 @@ const PriceUpdateForm = () => {
           <input
             type="text"
             id={`${field.key}_Ask`}
-            placeholder="Operation (+, -, *, /)"
+            placeholder="Örn: +, -, *, /"
             value={operations[field.key]?.Ask || ''}
             onChange={(e) => handleOperationChange(e, field.key, 'Ask')}
           />
         </div>
       ))}
       <div className="form-buttons">
-        <button type="submit" className="btn btn-update">Update Prices</button>
-        <button type="button" className="btn btn-reset" onClick={handleReset}>Reset</button>
+        <button type="submit" className="btn btn-update">Fiyatları Güncelle</button>
+        <button type="button" className="btn btn-reset" onClick={handleReset}>Sıfırla</button>
       </div>
     </form>
   );

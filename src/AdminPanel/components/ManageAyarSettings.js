@@ -24,22 +24,22 @@ const ManageAyarSettings = ({ show18Ayar, setShow18Ayar, show14Ayar, setShow14Ay
     <div className="manage-ayar-settings">
       <h2>Ayarları Yönet</h2>
       <div className="settings-option">
+        <input
+          type="checkbox"
+          checked={localShow18Ayar}
+          onChange={(e) => setLocalShow18Ayar(e.target.checked)}
+        />
         <label>
-          <input
-            type="checkbox"
-            checked={localShow18Ayar}
-            onChange={(e) => setLocalShow18Ayar(e.target.checked)}
-          />
           18 Ayar Satış Fiyatını Göster
         </label>
       </div>
       <div className="settings-option">
+        <input
+          type="checkbox"
+          checked={localShow14Ayar}
+          onChange={(e) => setLocalShow14Ayar(e.target.checked)}
+        />
         <label>
-          <input
-            type="checkbox"
-            checked={localShow14Ayar}
-            onChange={(e) => setLocalShow14Ayar(e.target.checked)}
-          />
           14 Ayar Satış Fiyatını Göster
         </label>
       </div>
