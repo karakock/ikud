@@ -83,7 +83,7 @@ const AdminPanel = ({ marqueeText, setMarqueeText, scrollAmount, setScrollAmount
           toggleDarkMode={toggleDarkMode}
           currentUser={currentUser}
         />
-        <div className="admin-panel-sidebar">
+        <div className={`admin-panel-sidebar ${sidebarOpen ? 'collapsed' : ''}`}>
           <ul>
             <li><Link to="/admin"><i className="fas fa-tachometer-alt fa-icon"></i>YÖNETİM PANELİ</Link></li>
             <li><Link to="/"><i className="fas fa-home fa-icon"></i>Ana Sayfa</Link></li>

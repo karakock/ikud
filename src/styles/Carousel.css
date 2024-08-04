@@ -1,7 +1,7 @@
 .carousel-container {
   width: 100%; /* Genişliği yüzdeye göre ayarlandı */
-  max-width: 940px; /* Maksimum genişlik ayarlandı */
-  height: 460px; /* Yükseklik korunuyor */
+  max-width: 1060px; /* Maksimum genişlik ayarlandı */
+  height: 480px; /* Yükseklik korunuyor */
   margin: 0 auto; /* Ortalanması için margin ayarlandı */
   border: 3px solid #978f8f; /* Çerçeve ekleme */
   border-radius: 8px; /* Köşeleri yuvarlama */

@@ -1,9 +1,35 @@
-{
-    "users": [
-      { "id": 1, "name": "User One", "email": "userone@example.com", "role": "Kullanıcı", "password": "password1" },
-      { "id": 2, "name": "User Two", "email": "usertwo@example.com", "role": "Kullanıcı", "password": "password2" },
-      { "id": 3, "name": "User Three", "email": "userthree@example.com", "role": "Kullanıcı", "password": "password3" },
-      { "id": 4, "name": "ozcan", "email": "userthree@example.com", "role": "Admin", "password": "1234" }
-    ]
+[
+  {
+    "id": 1,
+    "name": "ozcan",
+    "email": "ozcan@example.com",
+    "role": "Admin",
+    "password": "1234",
+    "isActive": false
+  },
+  {
+    "id": 2,
+    "name": "emre",
+    "email": "hasan@hotmail.com",
+    "role": "Kullanıcı",
+    "password": "1234",
+    "isActive": false
+  },
+  {
+    "id": 3,
+    "name": "anıl",
+    "email": "anıl@hotmail.com",
+    "role": "Moderatör",
+    "password": "1234",
+    "isActive": false
+  },
+  {
+    "id": 4,
+    "name": "erkan",
+    "email": "anıle@hotmail.com",
+    "role": "Admin",
+    "password": "1234",
+    "isActive": false
   }
-  
+
+]

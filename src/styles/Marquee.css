@@ -1,6 +1,8 @@
 .marquee-container {
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
+  width: 100%;
 }
 
 .marquee-content {
@@ -17,5 +19,31 @@
   }
   100% {
     transform: translateX(-100%);
+  }
+}
+
+/* Hover durumunda animasyonu durdurma */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Dinamik renk değişimi için */
+@keyframes colorChange {
+  0% { color: red; }
+  50% { color: blue; }
+  100% { color: green; }
+}
+
+/* Döndürme animasyonu için */
+.rotate-animation {
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

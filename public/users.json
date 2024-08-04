@@ -13,7 +13,7 @@
     "email": "hasan@hotmail.com",
     "role": "Kullanıcı",
     "password": "1234",
-    "isActive": true
+    "isActive": false
   },
   {
     "id": 3,
@@ -21,7 +21,15 @@
     "email": "anıl@hotmail.com",
     "role": "Moderatör",
     "password": "1234",
-    "isActive": true
+    "isActive": false
+  },
+  {
+    "id": 4,
+    "name": "erkan",
+    "email": "anıle@hotmail.com",
+    "role": "Admin",
+    "password": "1234",
+    "isActive": false
   }
 
 ]

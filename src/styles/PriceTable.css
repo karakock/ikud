@@ -1,74 +1,74 @@
 .table-container {
   background-color: #001F5B;
   color: #FFFFFF;
-  font-size: 1.4em; /* Yazı boyutunu büyütme */
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-size: 1.4em;
+  font-weight: bold;
 }
 
 .header2 {
-  font-size: 1.2em; /* Yazı boyutunu büyütme */
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 .r {
   color: red;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold;
 }
 
 .header3 {
   background-color: #123456;
   color: #FFFFFF;
-  font-size: 2em; /* Yazı boyutunu büyütme */
+  font-size: 2em;
   padding: 20px;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold;
 }
 
 .header4 {
   background-color: #345678;
   color: #FFFFFF;
-  font-size: 1.5em; /* Yazı boyutunu büyütme */
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 .p3 {
   padding: 12px;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold;
 }
 
 .bg-light {
   background-color: #b3b5b8 !important;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold !important; /* Yazıları kalın yapma */
 }
 
 .text-dark {
   color: #343a40 !important;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold !important; /* Yazıları kalın yapma */
 }
 
 .h {
   text-align: left;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold !important; /* Yazıları kalın yapma */
 }
 
 .d {
   text-align: center;
   color: yellow;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold !important; /* Yazıları kalın yapma */
 }
 
 .border-bottom {
   border-bottom: 3px solid #ccc;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold !important; /* Yazıları kalın yapma */
 }
 
 .text-center {
   text-align: center;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold !important; /* Yazıları kalın yapma */
 }
 
 .text-right {
   text-align: right;
-  font-weight: bold; /* Yazıları kalın yapma */
+  font-weight: bold !important; /* Yazıları kalın yapma */
 }
 
 .container-fluid {
@@ -78,4 +78,9 @@
 .image {
   max-width: 50%;
   height: auto;
+}
+
+/* Gelen Rakamlar İçin Spesifik Stil */
+.p3 span, .bg-light span, .text-dark span {
+  font-weight: bolder !important; /* Rakamları daha kalın yapma */
 }

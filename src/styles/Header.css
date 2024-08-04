@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Roboto:wght@400&display=swap');
 
 .header-container {
-  background-color: #001a5e;
+  background: linear-gradient(135deg, #0d1f4b, #003087);
   color: white;
   padding: 10px;
   display: flex;
@@ -9,25 +9,73 @@
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.header-container:hover {
+  background: linear-gradient(135deg, #0a1a3e, #002573);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
 }
 
 .header-logo {
-  width: 100px;
+  width: 110px;
   height: auto;
   animation: fadeIn 2s ease-in-out;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+.header-logo:hover {
+  transform: scale(1.05) translateY(-3px);
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+}
+
+.header-content {
+  text-align: center;
 }
 
 .header-title {
-  font-size: 50px;
-  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-family: 'Merriweather', serif;
+  font-weight: 900;
   position: relative;
   animation: slideIn 1.5s ease-out;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  transition: transform 0.5s ease;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  transition: transform 0.5s ease, color 0.5s ease;
+  color: #f0f0f0;
+  display: inline-block;
+  background: linear-gradient(90deg, #f0f0f0, #ffdd00);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
 }
 
 .header-title:hover {
-  transform: scale(1.1);
+  transform: scale(1.05) translateY(-3px);
+  color: #ffdd00;
+}
+
+.header-title .underline {
+  display: block;
+  width: 0;
+  height: 3px;
+  background-color: white;
+  transition: width 0.5s;
+  margin-top: 5px;
+}
+
+.header-title:hover .underline {
+  width: 100%;
+}
+
+.header-subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: #c9d1d9;
+  margin-top: 5px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes slideIn {
@@ -47,5 +95,36 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(255, 215, 0, 1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .header-title {
+    font-size: 32px;
+  }
+
+  .header-logo {
+    width: 90px;
+    margin: 10px 0;
+  }
+
+  .header-subtitle {
+    font-size: 16px;
   }
 }

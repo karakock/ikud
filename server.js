@@ -6,7 +6,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-const usersFilePath = path.join(__dirname, 'src', 'AdminPanel', 'context', 'users.json');
+// Statik dosyaları sunmak için build klasörünü kullan
+app.use(express.static(path.join(__dirname, 'build')));
+
+// users.json dosyası için doğru yol
+const usersFilePath = path.join(__dirname, 'public', 'users.json');
 
 // Kullanıcıları JSON dosyasından okuma
 const readUsersFromFile = () => {
@@ -58,6 +62,11 @@ app.delete('/users/:id', (req, res) => {
   writeUsersToFile(users);
 
   res.json({ message: 'User deleted successfully' });
+});
+
+// Diğer tüm istekleri index.html dosyasına yönlendir
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Sunucuyu başlatma

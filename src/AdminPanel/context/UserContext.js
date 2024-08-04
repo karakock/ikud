@@ -1,84 +1,50 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
-// users.json yerine localStorage ile çalışacak şekilde ayarlandı
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    // localStorage'dan kullanıcıları yükle
-    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    setUsers(storedUsers);
+    const storedUsers = JSON.parse(localStorage.getItem('users'));
+    
+    if (storedUsers && storedUsers.length > 0) {
+      setUsers(storedUsers);
+    } else {
+      fetch('/users.json')
+        .then(response => response.json())
+        .then(data => {
+          setUsers(data);
+          localStorage.setItem('users', JSON.stringify(data));
+        })
+        .catch(error => console.error('Error loading users:', error.message));
+    }
   }, []);
 
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem('currentUser');
-    }
-  }, [currentUser]);
+  const setActiveStatus = (userId, isActive) => {
+    const updatedUsers = users.map(user => 
+      user.id === userId ? { ...user, isActive: isActive } : user
+    );
+    setUsers(updatedUsers);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+  };
 
   const addUser = (newUser) => {
-    try {
-      const updatedUsers = [...users, { ...newUser, id: users.length + 1 }];
-      setUsers(updatedUsers);
-      localStorage.setItem('users', JSON.stringify(updatedUsers)); // localStorage'a kaydet
-    } catch (error) {
-      console.error('Error adding user:', error.message);
-    }
+    const updatedUsers = [...users, { ...newUser, id: users.length + 1, isActive: false }];
+    setUsers(updatedUsers);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
   };
 
   const deleteUser = (userId) => {
-    try {
-      const updatedUsers = users.filter(user => user.id !== userId);
-      setUsers(updatedUsers);
-      localStorage.setItem('users', JSON.stringify(updatedUsers)); // localStorage'a kaydet
-    } catch (error) {
-      console.error('Error deleting user:', error.message);
-    }
-  };
-
-  const handleLogout = () => {
-    setCurrentUser(null);
-    // Diğer logout işlemleri buraya eklenebilir
-  };
-
-  const setActiveStatus = (userId, isActive) => {
-    try {
-      const updatedUsers = users.map(user =>
-        user.id === userId ? { ...user, isActive: isActive } : user
-      );
-      setUsers(updatedUsers);
-      localStorage.setItem('users', JSON.stringify(updatedUsers)); // localStorage'a kaydet
-    } catch (error) {
-      console.error('Error updating user status:', error.message);
-    }
+    const updatedUsers = users.filter(user => user.id !== userId);
+    setUsers(updatedUsers);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
   };
 
   return (
-    <UserContext.Provider value={{ users, setUsers, currentUser, setCurrentUser, addUser, deleteUser, handleLogout, setActiveStatus }}>
+    <UserContext.Provider value={{ users, setUsers, currentUser, setCurrentUser, setActiveStatus, addUser, deleteUser }}>
       {children}
     </UserContext.Provider>
-  );
-};
-
-// Kullanım örneği:
-export const SomeComponent = () => {
-  const { currentUser, handleLogout } = useContext(UserContext);
-
-  return (
-    <div>
-      {currentUser ? (
-        <>
-          <p>Welcome, {currentUser.name}!</p>
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      ) : (
-        <p>Please log in.</p>
-      )}
-    </div>
   );
 };

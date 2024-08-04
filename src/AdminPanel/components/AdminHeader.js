@@ -66,7 +66,7 @@ const AdminHeader = ({ handleLogout, toggleNotificationMenu, notificationOpen, t
         </div>
         <div className="user-profile">
           <span>Hoşgeldiniz, {getRoleLabel()}</span>
-          <img src="/src/img/3541871.png" alt="" className="1" />
+          
         </div>
         <button onClick={handleLogout}><i className="fas fa-sign-out-alt fa-icon"></i>Çıkış Yap</button>
       </div>
