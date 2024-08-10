@@ -1,75 +1,82 @@
 const express = require('express');
 const fs = require('fs');
+const cors = require('cors');
 const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
+// CORS ayarları
+const corsOptions = {
+  origin: ['https://stildunyasi.site', 'http://localhost:3000'], // Güvenli domainleri belirleyin
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
-// Statik dosyaları sunmak için build klasörünü kullan
-app.use(express.static(path.join(__dirname, 'build')));
-
-// users.json dosyası için doğru yol
-const usersFilePath = path.join(__dirname, 'public', 'users.json');
-
-// Kullanıcıları JSON dosyasından okuma
-const readUsersFromFile = () => {
+// JSON dosyasını otomatik olarak oku ve belleğe yükle
+let users = [];
+const loadUsers = () => {
   try {
-    const data = fs.readFileSync(usersFilePath, 'utf8');
-    return JSON.parse(data);
+    const data = fs.readFileSync('users.json', 'utf8');
+    users = JSON.parse(data);
+    console.log('Users loaded from JSON file:', users);
   } catch (error) {
-    console.error('users.json dosyası okunurken hata oluştu:', error);
-    return [];
+    console.error('Error reading users.json:', error);
   }
 };
 
-// Kullanıcıları JSON dosyasına yazma
-const writeUsersToFile = (users) => {
-  try {
-    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2), 'utf8');
-  } catch (error) {
-    console.error('users.json dosyasına yazılırken hata oluştu:', error);
-  }
-};
+// Sunucu başlatıldığında kullanıcıları yükle
+loadUsers();
 
-// Kullanıcıları getirme
+// Kullanıcıları listeleme API'si
 app.get('/users', (req, res) => {
-  const users = readUsersFromFile();
   res.json(users);
 });
 
-// Yeni kullanıcı ekleme
+// Yeni kullanıcı ekleme API'si
 app.post('/users', (req, res) => {
-  const users = readUsersFromFile();
   const newUser = { ...req.body, id: users.length ? users[users.length - 1].id + 1 : 1 };
-
   users.push(newUser);
-  writeUsersToFile(users);
-
-  res.status(201).json(newUser);
+  fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to users.json:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json(newUser);
+  });
 });
 
-// Kullanıcı silme
+// Kullanıcı silme API'si
 app.delete('/users/:id', (req, res) => {
-  let users = readUsersFromFile();
   const userId = parseInt(req.params.id);
-
-  if (!users.some(user => user.id === userId)) {
-    return res.status(404).json({ message: 'User not found' });
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
   }
-
+  const initialLength = users.length;
   users = users.filter(user => user.id !== userId);
-  writeUsersToFile(users);
-
-  res.json({ message: 'User deleted successfully' });
+  if (users.length === initialLength) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
+    if (err) {
+      console.error('Error writing to users.json:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.json({ message: 'User deleted' });
+  });
 });
 
-// Diğer tüm istekleri index.html dosyasına yönlendir
+// Statik dosyaları servis et
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Tüm yolları yakala ve index.html döndür
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-// Sunucuyu başlatma
-app.listen(PORT, () => {
+// Sunucuyu başlat
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
